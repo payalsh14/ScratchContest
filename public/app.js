@@ -20,7 +20,20 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800);}
 
 // API with automatic fallback to localStorage (static/demo mode)
+const SHEET_URL = ''; // <-- PASTE your Google Apps Script Web App URL here (see README)
+async function sheet(action, data){
+  try{ const r = await fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})}); return await r.json(); }
+  catch(e){ return null; }
+}
 async function api(path, body, token){
+  if(SHEET_URL){
+    let r=null;
+    if(path==='register') r=await sheet('register',body);
+    else if(path==='submit') r=await sheet('submit',body);
+    else if(path==='judge/login'){ r=await sheet('login',body); if(r) r=r.ok?{token:body.password,_status:200}:{_status:401}; }
+    else if(path==='submissions'){ r=await sheet('list',{password:token}); if(r) r=r.error?{_status:401}:{subs:r.subs,_status:200}; }
+    return r;
+  }
   try{
     const r = await fetch('/api/'+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','x-token':token||''},body:body?JSON.stringify(body):undefined});
     if(r.status===404||r.status>=500) return null;
@@ -62,7 +75,7 @@ $('#rBtn').onclick=async()=>{
   if(!name||!cls||!school){m.textContent='Please fill in all fields 🙂';return;}
   const data={type:mode,name,cls,school};
   let reg=await api('register',data);
- if(SHEET_URL&&(!reg||reg.error)){m.textContent='Could not save. Check internet and try again.';return;}
+  if(SHEET_URL&&(!reg||reg.error)){m.textContent='Could not save. Check internet and try again.';return;}
   if(!reg||reg.error){reg={...data,id:'L'+Date.now(),at:Date.now()};const r=LS('regs')||[];r.push(reg);SV('regs',r);}
   SV('me',reg);m.className='msg ok';m.textContent='Registered! Taking you to submission... 🎉';
   setTimeout(()=>location.hash='#problems',900);
@@ -74,7 +87,9 @@ $('#sBtn').onclick=async()=>{
   const m=$('#sMsg'),me=LS('me'),link=$('#sLink').value.trim().split('?')[0];m.className='msg';
   if(!me){m.textContent='Please register first.';return;}
   if(!/^https:\/\/scratch\.mit\.edu\/projects\/\d+/.test(link)){m.textContent='Enter a valid Scratch project link 🔗';return;}
-const data={regId:me.id,name:me.name,cls:me.cls,school:me.school,problem:$('#sProb').value,link};  const r=await api('submit',data);
+  const data={regId:me.id,name:me.name,cls:me.cls,school:me.school,problem:$('#sProb').value,link};
+  const r=await api('submit',data);
+  if(SHEET_URL&&(!r||r.error)){m.textContent=(r&&r.error)||'Could not save. Check internet and try again.';return;}
   if(!r||r.error){ if(r&&r.error){m.textContent=r.error;return;}
     let s=(LS('subs')||[]).filter(x=>!(x.regId===me.id&&x.problem===data.problem));
     s.push({...data,name:me.name,cls:me.cls,school:me.school,at:Date.now()});SV('subs',s);}
@@ -87,10 +102,9 @@ function judgeInit(){const ok=!!(jToken||sessionStorage.getItem('jok'));$('#jLog
 $('#jBtn').onclick=async()=>{
   const pw=$('#jPass').value,m=$('#jMsg');m.className='msg';
   const r=await api('judge/login',{password:pw});
- if(SHEET_URL&&(!r||r.error)){m.textContent=(r&&r.error)||'Could not save. Check internet and try again.';return;}
   if(r&&r.token){jToken=r.token;sessionStorage.setItem('jt',r.token);sessionStorage.setItem('jok','1');}
-  else if(r&&r._status===401){m.textContent='Wrong password 🙈';return
-   else if(SHEET_URL&&!r){m.textContent='Cannot reach database. Try again.';return;}
+  else if(r&&r._status===401){m.textContent='Wrong password 🙈';return;}
+  else if(SHEET_URL&&!r){m.textContent='Cannot reach database. Try again.';return;}
   else if(!r&&pw==='judge123'){sessionStorage.setItem('jok','1');sessionStorage.setItem('jlocal','1');}
   else{m.textContent='Wrong password 🙈';return;}
   $('#jPass').value='';judgeInit();
