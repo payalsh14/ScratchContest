@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scratch Junior Coding Contest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header><a href="#home" class="logo">🐱 Scratch<span>Junior</span></a>
+<nav><a href="#home">Home</a><a href="#problems">Problems</a><a href="#register">Register</a><a href="#submit">Submit</a><a href="#judge">Judge</a></nav></header>
+<main>
+<section id="home" class="view">
+ <div class="hero"><div class="blob b1">⭐</div><div class="blob b2">🚀</div>
+ <h1>Scratch Coding Contest</h1><p class="tag">Junior Category · Classes 5 – 8</p>
+ <p>4 fun challenges. Build them on Scratch, submit your project link, and show the judges what you can create!</p>
+ <div class="row"><a class="btn" href="#register">Register now 🎉</a><a class="btn alt" href="#problems">See problems</a></div></div>
+ <div class="grid3">
+  <div class="card"><div class="ico">📝</div><h3>1. Register</h3><p>Sign up as a team or as a solo coder.</p></div>
+  <div class="card"><div class="ico">💻</div><h3>2. Code</h3><p>Solve the 4 problems on scratch.mit.edu.</p></div>
+  <div class="card"><div class="ico">🔗</div><h3>3. Submit</h3><p>Share your project link for each problem.</p></div>
+ </div>
+ <div class="card rules"><h3>📌 Contest Rules</h3><ul>
+  <li>Open to students of classes 5–8.</li><li>Teams or solo participation allowed.</li>
+  <li>Projects must be <b>shared</b> on Scratch so judges can open them.</li>
+  <li>Work must be your own. Remixing a sample is not allowed.</li>
+  <li>Judges score on correctness, creativity and clean code.</li></ul></div>
+</section>
+<section id="problems" class="view"><h2>🧩 Problem Set</h2><p class="sub">1 Easy · 2 Medium · 1 Hard</p><div id="plist"></div></section>
+<section id="register" class="view"><div class="card form">
+ <h2>📝 Registration</h2><p class="sub">Tell us who's joining the contest!</p>
+ <div class="toggle"><button type="button" id="tTeam" class="on">👭 Team</button><button type="button" id="tSolo">🧒 Solo</button></div>
+ <label id="nameLbl">Team name</label><input id="rName" placeholder="e.g. Code Kittens" maxlength="60">
+ <label>Class</label><select id="rCls"><option value="">Select class</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
+ <label>School name</label><input id="rSchool" placeholder="Your school" maxlength="80">
+ <p id="rMsg" class="msg"></p><button class="btn" id="rBtn">Register 🚀</button>
+</div></section>
+<section id="submit" class="view"><div class="card form">
+ <h2>🔗 Submit Project</h2><p class="sub" id="whoami"></p>
+ <label>Problem</label><select id="sProb"></select>
+ <label>Scratch project link</label><input id="sLink" placeholder="https://scratch.mit.edu/projects/123456789/">
+ <p class="hint">Click <b>Share</b> in Scratch first, so the judges can view it.</p>
+ <p id="sMsg" class="msg"></p><button class="btn" id="sBtn">Submit ✅</button>
+</div></section>
+<section id="judge" class="view">
+ <div class="card form" id="jLogin"><h2>🔒 Judge Portal</h2><p class="sub">Judges only. Enter the password.</p>
+  <label>Password</label><input type="password" id="jPass" placeholder="Password">
+  <p id="jMsg" class="msg"></p><button class="btn" id="jBtn">Enter</button></div>
+ <div id="jPanel" hidden><div class="rowb"><h2>🏅 Submissions <span id="jCount"></span></h2><button class="btn alt sm" id="jOut">Log out</button></div>
+  <input id="jFilter" class="filter" placeholder="🔍 Search team, class or problem">
+  <div class="tablewrap"><table><thead><tr><th>Participant</th><th>Class</th><th>Problem</th><th>Project link</th><th></th></tr></thead><tbody id="jBody"></tbody></table></div></div>
+</section>
+</main>
+<footer>Made with 💖 for young coders</footer>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body></html>
