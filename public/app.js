@@ -1,15 +1,15 @@
 const SCRATCH_EDITOR = 'https://scratch.mit.edu/projects/editor/';
 const PROBLEMS = [
- {id:'P1',level:'Easy',color:'#b8f0d8',pts:20,title:'Dancing Party 💃',
+ {id:'P1',level:'Easy',color:'#b8f0d8',pts:100,title:'Dancing Party 💃',
   desc:'Make a sprite throw a dance party! When the green flag is clicked, your sprite should dance to music and react to the keyboard.',
   req:['Use at least 1 sprite and a colourful backdrop','Play a sound or music in a loop','Sprite changes costumes to dance','Pressing the space key changes the backdrop colour','Show a title using a text or say block']},
- {id:'P2',level:'Medium',color:'#fff2a8',pts:30,title:'Maze Runner 🧭',
+ {id:'P2',level:'Medium',color:'#fff2a8',pts:200,title:'Maze Runner 🧭',
   desc:'Build a maze game where a player guides a character from the start to the finish without touching the walls.',
   req:['Control the player using the 4 arrow keys','Touching a wall sends the player back to the start','Reaching the goal shows a "You Win!" message','Add a timer variable that shows time taken','Include at least 2 levels (maze changes)']},
- {id:'P3',level:'Medium',color:'#b9e0ff',pts:30,title:'Quiz Master 🧠',
+ {id:'P3',level:'Medium',color:'#b9e0ff',pts:200,title:'Quiz Master 🧠',
   desc:'Create a fun quiz that asks questions and keeps score, like your own mini game show.',
   req:['Ask at least 5 questions using the Ask and Wait block','Use a Score variable (+1 for correct answers)','Give different replies for correct and wrong answers','Use a list or variables to store questions and answers','Show the final score and a message at the end']},
- {id:'P4',level:'Hard',color:'#ffb3d1',pts:40,title:'Space Defender 🚀',
+ {id:'P4',level:'Hard',color:'#ffb3d1',pts:300,title:'Space Defender 🚀',
   desc:'Design a complete space shooter. Protect your planet from falling asteroids and beat your own high score!',
   req:['Spaceship moves left and right with the keyboard','Shoot lasers with the space key using clones','Asteroids fall from random positions using clones','Score increases on a hit, and 3 lives reduce on a crash','Game Over screen with restart option','Difficulty increases as the score grows','Save a High Score variable']}
 ];
